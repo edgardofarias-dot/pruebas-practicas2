@@ -1,3 +1,3 @@
-const chalk = require('chalk')
+const chalk = require('chalk');
 
-console.log(chalk.greenBright('Hola NPM'))
+console.log(chalk.greenBright('Hola NPM'));
