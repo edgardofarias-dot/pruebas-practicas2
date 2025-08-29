@@ -1,10 +1,17 @@
 const express = require('express')
+const morgan = require('morgan')
 
 const app = express()
 
 app.use(express.text())
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
+
+app.use(morgan('dev'))
+
+app.get('/dashboard', (req, res) => {
+    res.send('Dashboard showed')
+})
 
 app.get('/hello/:username', (req, res) => {
     console.log()
@@ -16,6 +23,12 @@ app.get('/hello/:username', (req, res) => {
 app.get('/sume/:x/:y', (req, res) => {
     const {x, y} = req.params
     res.send(`Result: ${parseInt(x) + parseInt(y)}`)
+})
+
+app.use((req, res, next) => {
+    
+    if (req.query.login === 'fazt@faztweb.com') next()
+    else res.send('No autorizado')
 })
 
 app.get('/users/:username/photo', (req, res) => {
@@ -30,12 +43,6 @@ app.get('/query/:username', (req, res) => {
     console.log(req.query.age)
 
     res.send(`Hola ${req.params.username}`)
-})
-
-app.use((req, res, next) => {
-    console.log('Paso por aqui')
-
-    next() // es como un break para la funcion, esto viene de express
 })
 
 app.get('/search', (req, res) => {
